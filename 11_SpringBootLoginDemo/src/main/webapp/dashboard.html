@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management Dashboard</title>
+    <script>
+        async function validateUser() {
+            const username = document.getElementById('validateUsername').value;
+            const password = document.getElementById('validatePassword').value;
+            const response = await fetch('/user/validate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            });
+            const result = await response.text();
+            document.getElementById('validateResult').innerText = result;
+        }
+
+        async function getAllUsers() {
+            const response = await fetch('/user/getuser');
+            const result = await response.text();
+            document.getElementById('userList').innerText = result;
+        }
+
+        async function getUserByUsername() {
+            const username = document.getElementById('searchUsername').value;
+            const response = await fetch(`/user/getuserbyun/${username}`);
+            const result = await response.text();
+            document.getElementById('searchResult').innerText = result;
+        }
+
+        async function saveUser() {
+            const username = document.getElementById('newUsername').value;
+            const password = document.getElementById('newPassword').value;
+            const response = await fetch('/user/save', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            });
+            const result = await response.text();
+            document.getElementById('saveResult').innerText = result;
+        }
+
+        async function updateUser() {
+            const username = document.getElementById('updateUsername').value;
+            const password = document.getElementById('updatePassword').value;
+            const response = await fetch('/user/update', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            });
+            const result = await response.text();
+            document.getElementById('updateResult').innerText = result;
+        }
+
+        async function deleteUser() {
+            const username = document.getElementById('deleteUsername').value;
+            const response = await fetch(`/user/delet/${username}`, {
+                method: 'DELETE'
+            });
+            const result = await response.text();
+            document.getElementById('deleteResult').innerText = result;
+        }
+    </script>
+</head>
+<body>
+    <h1>User Management Dashboard</h1>
+
+    <h2>Validate User</h2>
+    <input type="text" id="validateUsername" placeholder="Username" required>
+    <input type="password" id="validatePassword" placeholder="Password" required>
+    <button onclick="validateUser()">Validate</button>
+    <div id="validateResult"></div>
+
+    <h2>All Users</h2>
+    <button onclick="getAllUsers()">Get All Users</button>
+    <pre id="userList"></pre>
+
+    <h2>Search User by Username</h2>
+    <input type="text" id="searchUsername" placeholder="Username" required>
+    <button onclick="getUserByUsername()">Search</button>
+    <div id="searchResult"></div>
+
+    <h2>Save New User</h2>
+    <input type="text" id="newUsername" placeholder="Username" required>
+    <input type="password" id="newPassword" placeholder="Password" required>
+    <button onclick="saveUser()">Save User</button>
+    <div id="saveResult"></div>
+
+    <h2>Update User</h2>
+    <input type="text" id="updateUsername" placeholder="Username" required>
+    <input type="password" id="updatePassword" placeholder="New Password" required>
+    <button onclick="updateUser()">Update User</button>
+    <div id="updateResult"></div>
+
+    <h2>Delete User</h2>
+    <input type="text" id="deleteUsername" placeholder="Username" required>
+    <button onclick="deleteUser()">Delete User</button>
+    <div id="deleteResult"></div>
+</body>
+</html>
